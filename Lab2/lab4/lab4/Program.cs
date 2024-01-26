@@ -1,4 +1,5 @@
 using lab4.ContextModels;
+using lab4.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,8 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddDbContext<StiriContext>(options =>
-
 options.UseSqlServer(builder.Configuration.GetConnectionString("Stiri")));
+builder.Services.AddScoped<INewsRepository, NewsRepository>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

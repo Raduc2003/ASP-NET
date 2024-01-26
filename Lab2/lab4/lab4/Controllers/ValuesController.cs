@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using lab4.Repositories;
 
 namespace lab4.Controllers
 {
@@ -18,11 +19,12 @@ namespace lab4.Controllers
     {
         private readonly IMapper _mapper;
 
-        
+        private readonly INewsRepository _newsRepository;
         private readonly StiriContext _stiriContext;
 
-        public ValuesController(StiriContext stiriContext, IMapper mapper)
+        public ValuesController(StiriContext stiriContext, IMapper mapper,INewsRepository newsRepository)
         {
+            _newsRepository = newsRepository;
             _stiriContext = stiriContext;
             _mapper = mapper;
 
@@ -37,9 +39,9 @@ namespace lab4.Controllers
         {
             return Ok(await _stiriContext.Stire.ToListAsync());
         }*/
-        public IQueryable<StireDto> GetStires()
+        public async Task<List<StireDto>>GetStires()
         {
-            var stiri = from b in _stiriContext.Stire
+         /*   var stiri = from b in _stiriContext.Stire
                         select new StireDto()
                         {
                             Id = b.Id,
@@ -49,8 +51,11 @@ namespace lab4.Controllers
                             Autor = b.Autor,
                             CategorieFK = b.CategorieFK,
                         };
+*/
+            var stiri = await _newsRepository.GetStiriAsync();
 
-            return stiri;
+            var stiri2 = _mapper.Map<List<StireDto>>(stiri);
+            return stiri2;
         }
 
         [HttpPut]

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using lab4.Entities;
 
-namespace lab4.Profiles
+namespace lab4.Profiles 
 {
     public class Profile1:Profile
     {
